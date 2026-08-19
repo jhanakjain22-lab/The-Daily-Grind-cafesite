@@ -1,0 +1,42 @@
+# ☕ The Daily Grind — Café Website
+
+The Daily Grind is a modern full-stack café website that allows customers to explore the menu, create an account, add items to their cart, place orders, and make secure online payments using Razorpay.
+
+### ✨ Features
+
+* 🔐 User Registration & Login
+* ☕ Dynamic Café Menu
+* 🛒 Add to Cart & Cart Management
+* 📦 Order Placement & Order History
+* 💳 Razorpay Payment Integration
+* 🗄️ SQLite Database
+* 🔑 Secure Authentication
+* 📱 Responsive & User-Friendly Interface
+* ⚡ RESTful API with Node.js & Express
+
+### 🛠️ Tech Stack
+
+**Frontend:** HTML, CSS, JavaScript
+**Backend:** Node.js, Express.js
+**Database:** SQLite
+**Payment Gateway:** Razorpay
+**Authentication:** JWT / Secure Authentication
+**Tools:** VS Code, Git, GitHub
+
+### 🚀 Project Flow
+
+```text
+Register / Login
+       ↓
+    Browse Menu
+       ↓
+    Add to Cart
+       ↓
+     Checkout
+       ↓
+ Razorpay Payment
+       ↓
+  Order Confirmation
+```
+
+This project demonstrates a complete **full-stack e-commerce workflow for a café**, combining frontend development, REST APIs, database management, authentication, cart functionality, and online payment integration.
