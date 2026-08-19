@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Daily Grind - Cafe</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="axios-config.js"></script>
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header>
+      <nav>
+        <a href="index.html" class="logo">The Daily Grind</a>
+        <ul class="nav-links">
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Register</a></li>
+          <li>
+            <button class="cart-toggle" onclick="toggleCart()" aria-label="Open cart">
+              <svg class="cart-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              <span class="cart-badge" id="cart-count">0</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+      <div class="cart-header">
+        <h2>Your Cart</h2>
+        <button class="cart-close" onclick="closeCart()">&times;</button>
+      </div>
+      <div class="cart-body" id="cart-items">
+        <p class="cart-empty">Your cart is empty</p>
+      </div>
+      <div class="cart-footer">
+        <div class="cart-total-row">
+          <span>Total</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Place Order</button>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <h1>Welcome to The Daily Grind</h1>
+      <p>Crafted coffee, fresh pastries, and good vibes. Your neighborhood cafe since 2026.</p>
+      <a href="#menu" class="hero-btn">View Our Menu</a>
+    </div>
+
+    <!-- MENU -->
+    <section id="menu">
+      <h2 class="section-title">Our Menu</h2>
+      <p class="section-subtitle">Handcrafted with care, served with love</p>
+
+      <div class="menu-filters">
+        <button class="filter-btn active" onclick="filterMenu('all')">All</button>
+        <button class="filter-btn" onclick="filterMenu('coffee')">Coffee</button>
+        <button class="filter-btn" onclick="filterMenu('tea')">Tea</button>
+        <button class="filter-btn" onclick="filterMenu('smoothies')">Smoothies</button>
+        <button class="filter-btn" onclick="filterMenu('pastries')">Pastries</button>
+        <button class="filter-btn" onclick="filterMenu('desserts')">Desserts</button>
+        <button class="filter-btn" onclick="filterMenu('sandwiches')">Sandwiches</button>
+      </div>
+
+      <div class="menu-grid" id="menu-grid"></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="about">
+        <div class="about-text">
+          <h2>Our Story</h2>
+          <p>What started as a simple love for great coffee and warm conversations became <strong>The Daily Grind</strong> — a place where every cup tells a story.</p>
+          <p>We believe a café is more than just coffee. It's where mornings begin, friends meet, ideas come to life, and special moments are shared. That's why we carefully choose quality ingredients, craft every cup with passion, and create a cozy atmosphere that feels like home.</p>
+          <p>From your first sip of the day to a relaxing evening with friends, we're here to make every visit memorable.</p>
+          <p><strong>Good coffee. Great moments. Your place to belong.</strong></p>
+        </div>
+        <div class="about-image"><img src="image.png" alt="The Daily Grind Café"></div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+      <div class="footer-content">
+        <div class="footer-col">
+          <h3>Hours</h3>
+          <p>Monday - Friday: 7:00 AM - 8:00 PM</p>
+          <p>Saturday: 8:00 AM - 9:00 PM</p>
+          <p>Sunday: 8:00 AM - 6:00 PM</p>
+        </div>
+        <div class="footer-col">
+          <h3>Location</h3>
+          <p>123 Brew Street</p>
+          <p>Coffeetown, CA 90210</p>
+          <p>hello@thedailygrind.com</p>
+        </div>
+        <div class="footer-col">
+          <h3>Follow Us</h3>
+          <ul>
+            <li>Instagram @thedailygrind</li>
+            <li>Facebook /thedailygrind</li>
+            <li>Twitter @dailygrindcafe</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Daily Grind. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script>updateNavAuth();</script>
+  </body>
+</html>

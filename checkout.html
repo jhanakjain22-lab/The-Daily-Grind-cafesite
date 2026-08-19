@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - The Daily Grind</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="axios-config.js"></script>
+    <style>
+      .checkout-wrapper {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 0 1.5rem;
+      }
+      .checkout-card {
+        background: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(60, 36, 21, 0.1);
+        padding: 2rem;
+      }
+      .checkout-card h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: var(--brown-dark);
+      }
+      .checkout-subtitle {
+        color: var(--text-light);
+        margin-bottom: 2rem;
+      }
+      .checkout-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f0e6d9;
+      }
+      .checkout-item:last-of-type {
+        border-bottom: none;
+      }
+      .checkout-item-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+      .checkout-item-info {
+        flex: 1;
+      }
+      .checkout-item-info h3 {
+        font-size: 1rem;
+        color: var(--brown-dark);
+        margin-bottom: 0.25rem;
+      }
+      .checkout-item-info p {
+        font-size: 0.9rem;
+        color: var(--text-light);
+      }
+      .checkout-item-price {
+        font-weight: 600;
+        color: var(--brown-medium);
+      }
+      .checkout-summary {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px solid var(--gold-light);
+      }
+      .checkout-total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--brown-dark);
+      }
+      .checkout-btn {
+        width: 100%;
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: linear-gradient(135deg, var(--brown-medium), var(--brown-dark));
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .checkout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(60, 36, 21, 0.3);
+      }
+      .checkout-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .checkout-empty {
+        text-align: center;
+        padding: 3rem;
+        color: var(--text-light);
+      }
+      .checkout-empty a {
+        color: var(--brown-medium);
+        font-weight: 600;
+      }
+      .checkout-error {
+        background: #fee;
+        color: #c33;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: none;
+      }
+      .checkout-loading {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-light);
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header>
+      <nav>
+        <a href="index.html" class="logo">The Daily Grind</a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- CHECKOUT -->
+    <div class="checkout-wrapper">
+      <div class="checkout-card">
+        <h1>Checkout</h1>
+        <p class="checkout-subtitle">Review your order and complete payment</p>
+
+        <div id="checkout-error" class="checkout-error"></div>
+        <div id="checkout-loading" class="checkout-loading">Loading your cart...</div>
+        <div id="checkout-content" style="display: none;"></div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Daily Grind. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+      let cartItems = [];
+      let cartTotal = 0;
+
+      function getCartFromStorage() {
+        return JSON.parse(localStorage.getItem('cafe_cart') || '[]');
+      }
+
+      function renderCheckout() {
+        const loadingEl = document.getElementById('checkout-loading');
+        const contentEl = document.getElementById('checkout-content');
+        const errorEl = document.getElementById('checkout-error');
+
+        cartItems = getCartFromStorage();
+
+        if (cartItems.length === 0) {
+          loadingEl.innerHTML = `
+            <div class="checkout-empty">
+              <p>Your cart is empty.</p>
+              <p><a href="index.html">Back to Menu</a></p>
+            </div>
+          `;
+          return;
+        }
+
+        cartTotal = Math.round(cartItems.reduce((sum, item) => sum + item.price * item.qty, 0) * 100) / 100;
+
+        contentEl.innerHTML = `
+          ${cartItems.map(item => `
+            <div class="checkout-item">
+              <img class="checkout-item-img" src="${item.image}" alt="${item.name}" />
+              <div class="checkout-item-info">
+                <h3>${item.name}</h3>
+                <p>Qty: ${item.qty} x $${item.price.toFixed(2)}</p>
+              </div>
+              <div class="checkout-item-price">$${(item.price * item.qty).toFixed(2)}</div>
+            </div>
+          `).join('')}
+          <div class="checkout-summary">
+            <div class="checkout-total-row">
+              <span>Total</span>
+              <span>$${cartTotal.toFixed(2)}</span>
+            </div>
+            <button class="checkout-btn" id="pay-btn" onclick="initiatePayment()">
+              Pay with Razorpay
+            </button>
+          </div>
+        `;
+
+        loadingEl.style.display = 'none';
+        contentEl.style.display = 'block';
+      }
+
+      async function initiatePayment() {
+        const user = JSON.parse(localStorage.getItem('cafe_session') || 'null');
+        if (!user) {
+          alert('Please login to complete your order.');
+          window.location.href = 'login.html';
+          return;
+        }
+
+        const errorEl = document.getElementById('checkout-error');
+        const payBtn = document.getElementById('pay-btn');
+        errorEl.style.display = 'none';
+        payBtn.disabled = true;
+        payBtn.textContent = 'Processing...';
+
+        try {
+          const orderData = await API.post('/payment/create-order', {
+            items: cartItems.map(i => ({ name: i.name, price: i.price, qty: i.qty })),
+            total: cartTotal
+          });
+
+          const options = {
+            key: orderData.keyId,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            name: 'The Daily Grind',
+            description: 'Cafe Order Payment',
+            order_id: orderData.razorpayOrderId,
+            handler: async function (response) {
+              try {
+                const verifyData = await API.post('/payment/verify', {
+                  razorpayOrderId: response.razorpay_order_id,
+                  razorpayPaymentId: response.razorpay_payment_id,
+                  razorpaySignature: response.razorpay_signature
+                });
+
+                localStorage.removeItem('cafe_cart');
+                window.location.href = `order.html?id=${verifyData.orderId}&payment=success&total=${cartTotal}&paymentId=${response.razorpay_payment_id}`;
+              } catch (err) {
+                errorEl.textContent = 'Payment verification failed. Please contact support.';
+                errorEl.style.display = 'block';
+                payBtn.disabled = false;
+                payBtn.textContent = 'Pay with Razorpay';
+              }
+            },
+            prefill: {
+              name: user.name || '',
+              email: user.email || ''
+            },
+            theme: {
+              color: '#6B4226'
+            },
+            modal: {
+              ondismiss: function () {
+                payBtn.disabled = false;
+                payBtn.textContent = 'Pay with Razorpay';
+              }
+            }
+          };
+
+          const rzp = new Razorpay(options);
+          rzp.on('payment.failed', function (response) {
+            errorEl.textContent = 'Payment failed. Please try again.';
+            errorEl.style.display = 'block';
+            payBtn.disabled = false;
+            payBtn.textContent = 'Pay with Razorpay';
+          });
+          rzp.open();
+        } catch (err) {
+          errorEl.textContent = err.message || 'Failed to initiate payment. Please try again.';
+          errorEl.style.display = 'block';
+          payBtn.disabled = false;
+          payBtn.textContent = 'Pay with Razorpay';
+        }
+      }
+
+      renderCheckout();
+    </script>
+    <script>updateNavAuth();</script>
+  </body>
+</html>
