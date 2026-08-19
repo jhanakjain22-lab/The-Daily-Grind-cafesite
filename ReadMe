@@ -1,42 +1,232 @@
-# ☕ The Daily Grind — Café Website
+☕ The Daily Grind --- Café Website
 
-The Daily Grind is a modern full-stack café website that allows customers to explore the menu, create an account, add items to their cart, place orders, and make secure online payments using Razorpay.
+A modern full-stack café ordering website where customers can browse the
+menu, register/login, manage their cart, place orders, and make online
+payments using Razorpay.
 
-### ✨ Features
+✨ Features
 
-* 🔐 User Registration & Login
-* ☕ Dynamic Café Menu
-* 🛒 Add to Cart & Cart Management
-* 📦 Order Placement & Order History
-* 💳 Razorpay Payment Integration
-* 🗄️ SQLite Database
-* 🔑 Secure Authentication
-* 📱 Responsive & User-Friendly Interface
-* ⚡ RESTful API with Node.js & Express
+🔐 User registration and login
 
-### 🛠️ Tech Stack
+☕ Dynamic café menu
 
-**Frontend:** HTML, CSS, JavaScript
-**Backend:** Node.js, Express.js
-**Database:** SQLite
-**Payment Gateway:** Razorpay
-**Authentication:** JWT / Secure Authentication
-**Tools:** VS Code, Git, GitHub
+🛒 Add to cart and cart management
 
-### 🚀 Project Flow
+📦 Order placement and order management
 
-```text
+💳 Razorpay payment integration
+
+🗄️ SQLite database
+
+🔑 Authenticated API routes
+
+📱 Responsive café interface
+
+⚡ RESTful backend APIs
+
+👤 User-specific cart and orders
+
+🛠️ Tech Stack
+
+Frontend
+
+HTML5
+
+CSS3
+
+JavaScript
+
+Axios
+
+Backend
+
+Node.js
+
+Express.js
+
+CORS
+
+REST APIs
+
+Database
+
+SQLite
+
+Payment
+
+Razorpay
+
+📁 Project Structure
+
+cafesite/
+├── server/
+│   ├── middleware/
+│   ├── routes/
+│   │   ├── auth.js
+│   │   ├── menu.js
+│   │   ├── cart.js
+│   │   ├── orders.js
+│   │   └── payment.js
+│   ├── .env
+│   ├── cafe.db
+│   ├── database.js
+│   ├── server.js
+│   └── package.json
+├── index.html
+├── login.html
+├── register.html
+├── checkout.html
+├── order.html
+├── auth.js
+├── axios-config.js
+├── script.js
+├── styles.css
+└── README.md
+
+🚀 Application Flow
+
 Register / Login
        ↓
-    Browse Menu
+   Browse Menu
        ↓
-    Add to Cart
+   Add to Cart
        ↓
-     Checkout
+    Checkout
        ↓
- Razorpay Payment
+Razorpay Payment
        ↓
-  Order Confirmation
-```
+Order Verification
+       ↓
+Order Confirmation
 
-This project demonstrates a complete **full-stack e-commerce workflow for a café**, combining frontend development, REST APIs, database management, authentication, cart functionality, and online payment integration.
+⚙️ Installation
+
+1. Clone the repository
+
+git clone https://github.com/YOUR_USERNAME/the-daily-grind-cafe.git
+cd the-daily-grind-cafe
+
+2. Install backend dependencies
+
+cd server
+npm install
+
+3. Configure environment variables
+
+Create a .env file inside the server directory:
+
+PORT=5001
+RAZORPAY_KEY_ID=your_razorpay_test_key
+RAZORPAY_KEY_SECRET=your_razorpay_test_secret
+
+Never commit .env or payment secrets to GitHub.
+
+4. Start the backend
+
+npm start
+
+The API will run on:
+
+http://localhost:5001
+
+5. Open the frontend
+
+Open index.html in your browser, or use your preferred local
+development server.
+
+💳 Razorpay
+
+The project is designed to use Razorpay Test Mode during development.
+
+Payment flow:
+
+Checkout
+   ↓
+Create Razorpay Order
+   ↓
+Razorpay Checkout
+   ↓
+Payment
+   ↓
+Server-side Signature Verification
+   ↓
+Update Order/Payment Status
+
+For production, use proper Razorpay account verification and live
+credentials.
+
+🗄️ Database
+
+SQLite is used to store application data such as:
+
+Users
+
+Menu items
+
+Cart items
+
+Orders
+
+Order items
+
+Payment information
+
+The database is initialized by the backend when the server starts.
+
+🔒 Security
+
+Keep Razorpay secret keys on the backend only.
+
+Never commit .env to GitHub.
+
+Use authenticated requests for protected resources.
+
+Verify Razorpay payments on the server.
+
+Do not trust payment status sent directly from the frontend.
+
+🧪 Development
+
+Start the backend:
+
+cd server
+npm start
+
+Expected output:
+
+Database initialized
+Server running on port 5001
+
+API base URL:
+
+http://localhost:5001/api
+
+📌 Future Improvements
+
+📍 Live order tracking
+
+🪑 Table reservations
+
+❤️ Favorite items
+
+⭐ Reviews and ratings
+
+🎟️ Coupons and discounts
+
+🎁 Loyalty points
+
+👨‍💼 Admin dashboard
+
+📊 Sales analytics
+
+🤖 AI-based food recommendations
+
+🔔 Order notifications
+
+👩‍💻 Author
+
+Jhanak Jain
+
+B.Tech Computer Science & Engineering
+
+⭐ If you like this project, consider giving the repository a star!
